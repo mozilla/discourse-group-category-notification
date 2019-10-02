@@ -1,6 +1,8 @@
 # group-category-notification
 *A plugin to enable automatic subscription to categories based on group membership*
 
+[![Build Status](https://travis-ci.org/mozilla/discourse-group-category-notification.svg?branch=master)](https://travis-ci.org/mozilla/discourse-group-category-notification)
+
 ## Usage
 
 This plugin doesn't currently have a UI, interactions must be carried out using `rails c`.
