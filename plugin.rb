@@ -1,6 +1,6 @@
 # name: group-category-notification
 # about: Enables automatic subscription to categories based on group membership
-# version: 0.0.1
+# version: 0.0.2
 # authors: Leo McArdle
 # url: https://github.com/mozilla/discourse-group-category-notification
 
@@ -38,27 +38,31 @@ after_initialize do
 
   DiscourseEvent.on(:user_added_to_group) do |user, group|
     categories = group.custom_fields["default_categories_watching"]
-    return unless categories
-    categories.each do |category_id|
-      GroupCategoryNotification.subscribe_user(user, category_id)
+    if categories
+      categories.each do |category_id|
+        GroupCategoryNotification.subscribe_user(user, category_id)
+      end
     end
   end
 
   DiscourseEvent.on(:user_removed_from_group) do |user, group|
     categories = group.custom_fields["default_categories_watching"]
-    return unless categories
-    categories.each do |category_id|
-      GroupCategoryNotification.unsubscribe_user(user, category_id)
+    if categories
+      categories.each do |category_id|
+        GroupCategoryNotification.unsubscribe_user(user, category_id)
+      end
     end
   end
 
   DiscourseEvent.on(:group_destroyed) do |group|
     categories = group.custom_fields["default_categories_watching"]
-    return unless categories
-    categories.each do |category_id|
-      group.users.each do |user|
-        GroupCategoryNotification.unsubscribe_user(user, category_id)
+    if categories
+      categories.each do |category_id|
+        group.users.each do |user|
+          GroupCategoryNotification.unsubscribe_user(user, category_id)
+        end
       end
     end
   end
+
 end

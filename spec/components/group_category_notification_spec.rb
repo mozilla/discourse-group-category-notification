@@ -16,6 +16,12 @@ describe "group-category-notification plugin" do
       expect(category_user).to be
       expect(category_user.notification_level).to eq CategoryUser.notification_levels[:watching]
     end
+
+    context "with no subscriptions" do
+      it "doesn't blow up" do
+        Fabricate(:group).add(Fabricate(:user))
+      end
+    end
   end
 
   context "when user is removed from group" do
